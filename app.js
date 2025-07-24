@@ -15,6 +15,9 @@ app.use((req, res, next) => {
     next();
 });
 
+// Log the current environment
+console.log(`Running in ${process.env.NODE_ENV} mode`);
+
 // Basic route
 app.get('/', (req, res) => {
     res.send('Welcome to the Portfolio Management API');
