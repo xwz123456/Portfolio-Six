@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./config/config'); // Update path to configuration
+const assetRoutes = require('./routes/assetRoutes');
 
 const app = express();
 
@@ -22,6 +23,9 @@ console.log(`Running in ${process.env.NODE_ENV} mode`);
 app.get('/', (req, res) => {
     res.send('Welcome to the Portfolio Management API');
 });
+
+// Routes
+app.use('/api/assets', assetRoutes); // Ensure asset routes are included
 
 // Start the server
 const PORT = config.port || 5000; // Use port from config
