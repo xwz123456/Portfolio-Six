@@ -6,10 +6,17 @@ const db = require('../models/db');
 exports.getAllItems = async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM portfolio');
-    res.status(200).json(rows);
+    res.status(200).json(
+        {
+          success: true,
+          data: rows
+        });
   } catch (err) {
     console.error('Error fetching items:', err);
-    res.status(500).json({ message: 'Failed to fetch items', error: err.message });
+    res.status(500).json(
+        {
+          success: false,
+          message: 'Failed to fetch items', error: err.message });
   }
 };
 
@@ -22,7 +29,10 @@ exports.addItem = async (req, res) => {
 
     // 验证必要字段
     if (!name || !type) {
-      return res.status(400).json({ message: 'Name and type are required' });
+      return res.status(400).json(
+          {
+            success: false,
+            message: 'Name and type are required' });
     }
 
     const [result] = await db.query(
@@ -32,10 +42,17 @@ exports.addItem = async (req, res) => {
 
     // 返回新创建的项目
     const [newItem] = await db.query('SELECT * FROM portfolio WHERE id = ?', [result.insertId]);
-    res.status(201).json(newItem[0]);
+    res.status(201).json(
+        {
+          success: true,
+          data: newItem[0]
+        });
   } catch (err) {
     console.error('Error adding item:', err);
-    res.status(500).json({ message: 'Failed to add item', error: err.message });
+    res.status(500).json(
+        {
+          success: false,
+          message: 'Failed to add item', error: err.message });
   }
 };
 
@@ -47,7 +64,10 @@ exports.deleteItem = async (req, res) => {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(400).json({ message: 'Item ID is required' });
+      return res.status(400).json(
+          {
+            success: false,
+            message: 'Item ID is required' });
     }
 
     const [result] = await db.query('DELETE FROM portfolio WHERE id = ?', [id]);
@@ -56,23 +76,16 @@ exports.deleteItem = async (req, res) => {
       return res.status(404).json({ message: 'Item not found' });
     }
 
-    res.status(200).json({ message: 'Item deleted successfully' });
+    res.status(200).json(
+        {
+          success: true,
+          message: 'Item deleted successfully'
+        });
   } catch (err) {
     console.error('Error deleting item:', err);
-    res.status(500).json({ message: 'Failed to delete item', error: err.message });
+    res.status(500).json(
+        {
+          success: false,
+          message: 'Failed to delete item', error: err.message });
   }
-};
-
-/**
- * 根路径测试响应
- */
-exports.rootResponse = (req, res) => {
-  res.status(200).json({
-    message: 'Welcome to Portfolio Manager API',
-    endpoints: {
-      'GET /items': 'Get all portfolio items',
-      'POST /items': 'Add a new portfolio item',
-      'DELETE /items/:id': 'Delete a portfolio item'
-    }
-  });
 };
