@@ -12,5 +12,12 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
+// Test the database connection
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error('Database connection failed:', err.message);
+    }
+});
+
 // Export the pool for use in other parts of the application
 module.exports = pool.promise();
