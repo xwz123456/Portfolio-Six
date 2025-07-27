@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const portfolioRouter = require('./routes/itemRoute');  // items相关路由
 const stockRouter = require('./routes/stockRoute'); // 引入stock相关路由
+const assetRouter = require('./routes/assetRoute.js'); // 资产相关控制器
 const path = require('path');
 // 初始化 Express 应用
 const app = express();// 创建Express应用实例
@@ -18,6 +19,8 @@ app.use(express.static(path.join(__dirname, '../display2')));
 // 路由挂载
 app.use('/items', portfolioRouter); // 根路径直接挂载，便于访问
 app.use('/stocks', stockRouter); // stock相关路由挂载到/api路径下
+app.use('/assets', assetRouter); // 资产相关路由挂载到/assets路径下
+
 
 // 启动服务器
 app.listen(PORT, () => {
