@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>资产总览</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+</head>
+<body>
+<div>
+  <h2>历史资产历史收益</h2>
+  <div id="historyChart" style="width: 800px; height: 400px;"></div>
+</div>
+<div>
+  <h2>用户资产明细</h2>
+  <div style="display: flex; justify-content: flex-end;">
+    <select id="assetTypeSelect">
+      <option value="all">全部</option>
+      <option value="stock">股票</option>
+      <option value="bond">债券</option>
+      <option value="fund">基金</option>
+      <option value="crypto">加密货币</option>
+    </select>
+  </div>
+  <table border="1" id="assetTable">
+    <thead>
+    <tr>
+      <th>资产类型</th>
+      <th>资产代码</th>
+      <th>资产名称</th>
+      <th>数量</th>
+      <th>买入价格</th>
+      <th>当前价格</th>
+      <th>当前总收益</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+<hr>
+<div>
+  <h2>各类型资产收益总览</h2>
+  <div id="summaryGrid" style="display: flex; gap: 20px;">
+    <!-- 四个小方块 -->
+  </div>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
