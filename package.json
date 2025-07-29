@@ -4,7 +4,8 @@
   "description": "Welcome to the Portfolio Manager project! This application is designed to help users manage their financial portfolios, including stocks, bonds, and cash. Our goal is to provide a user-friendly interface for browsing, viewing performance, and managing portfolio items.",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
