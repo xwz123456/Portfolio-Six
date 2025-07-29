@@ -52,20 +52,33 @@ const pool = require('../database/connection');
  *                   type: string
  */
 exports.getAssetsByUserId = async (req, res) => {
-    const { userId } = req.params;
+  const { userId } = req.params;
 
-    // Input validation
-    if (!/^\d+$/.test(userId)) {
-        return res.status(400).json({ success: false, error: 'Invalid user ID format' });
-    }
+  // Input validation
+  if (!/^\d+$/.test(userId)) {
+    return res
+      .status(400)
+      .json({ success: false, error: 'Invalid user ID format' });
+  }
 
-    try {
-        const [rows] = await pool.query('SELECT * FROM user_assets WHERE user_id = ?', [userId]);
-        res.json({ success: true, data: rows, timestamp: new Date().toISOString() });
-    } catch (error) {
-        console.error('Error fetching assets:', error.message);
-        res.status(500).json({ success: false, error: 'Failed to fetch assets for the user', timestamp: new Date().toISOString() });
-    }
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM user_assets WHERE user_id = ?',
+      [userId]
+    );
+    return res.json({
+      success: true,
+      data: rows,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error fetching assets:', error.message);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to fetch assets for the user',
+      timestamp: new Date().toISOString(),
+    });
+  }
 };
 
 /**
@@ -120,23 +133,33 @@ exports.getAssetsByUserId = async (req, res) => {
  *                   type: string
  */
 exports.getTotalAssetsHistoryInfoByUserId = async (req, res) => {
-    const { userId } = req.params;
+  const { userId } = req.params;
 
-    // Input validation
-    if (!/^\d+$/.test(userId)) {
-        return res.status(400).json({ success: false, error: 'Invalid user ID format' });
-    }
+  // Input validation
+  if (!/^\d+$/.test(userId)) {
+    return res
+      .status(400)
+      .json({ success: false, error: 'Invalid user ID format' });
+  }
 
-    try {
-        const [rows] = await pool.query(
-            'SELECT id, user_id, record_date, total_assets FROM total_profit_history WHERE user_id = ?',
-            [userId]
-        );
-        res.json({ success: true, data: rows, timestamp: new Date().toISOString() });
-    } catch (error) {
-        console.error('Error fetching total assets history:', error.message);
-        res.status(500).json({ success: false, error: 'Failed to fetch total assets history for the user', timestamp: new Date().toISOString() });
-    }
+  try {
+    const [rows] = await pool.query(
+      'SELECT id, user_id, record_date, total_assets FROM total_profit_history WHERE user_id = ?',
+      [userId]
+    );
+    return res.json({
+      success: true,
+      data: rows,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error fetching total assets history:', error.message);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to fetch total assets history for the user',
+      timestamp: new Date().toISOString(),
+    });
+  }
 };
 
 /**
@@ -191,22 +214,31 @@ exports.getTotalAssetsHistoryInfoByUserId = async (req, res) => {
  *                   type: string
  */
 exports.getTotalProfitHistoryInfoByUserId = async (req, res) => {
-    const { userId } = req.params;
+  const { userId } = req.params;
 
-    // Input validation
-    if (!/^\d+$/.test(userId)) {
-        return res.status(400).json({ success: false, error: 'Invalid user ID format' });
-    }
+  // Input validation
+  if (!/^\d+$/.test(userId)) {
+    return res
+      .status(400)
+      .json({ success: false, error: 'Invalid user ID format' });
+  }
 
-    try {
-        const [rows] = await pool.query(
-            'SELECT id, user_id, record_date, total_profit FROM total_profit_history WHERE user_id = ?',
-            [userId]
-        );
-        res.json({ success: true, data: rows, timestamp: new Date().toISOString() });
-    } catch (error) {
-        console.error('Error fetching total profit history:', error.message);
-        res.status(500).json({ success: false, error: 'Failed to fetch total profit history for the user', timestamp: new Date().toISOString() });
-    }
+  try {
+    const [rows] = await pool.query(
+      'SELECT id, user_id, record_date, total_profit FROM total_profit_history WHERE user_id = ?',
+      [userId]
+    );
+    return res.json({
+      success: true,
+      data: rows,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Error fetching total profit history:', error.message);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to fetch total profit history for the user',
+      timestamp: new Date().toISOString(),
+    });
+  }
 };
-
