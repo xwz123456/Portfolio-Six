@@ -245,7 +245,7 @@ exports.getTotalProfitHistoryInfoByUserId = async (req, res) => {
 
 /**
  * @swagger
- * /api/assets/userAssetProfitRatesByType/{userId}:
+ * /api/assets/rate/{userId}:
  *   get:
  *     summary: Get profit rates for each asset type of a specific user by user ID
  *     parameters:
