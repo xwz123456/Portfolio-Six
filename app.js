@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const config = require('./config/config'); // Update path to configuration
+const config = require('./config/config');
 const assetRoutes = require('./routes/assetRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swaggerConfig');
 
 const app = express();
 
@@ -29,8 +31,11 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Portfolio Management API');
 });
 
+// Swagger documentation route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Routes
-app.use('/api/assets', assetRoutes); // Ensure asset routes are included
+app.use('/api/assets', assetRoutes);
 
 // Global error-handling middleware
 app.use((err, req, res, next) => {
@@ -39,7 +44,8 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-const PORT = config.port || 5000; // Use port from config
+const PORT = config.port || 3000; 
 app.listen(PORT, () => {
     console.log(`Financial Portfolio Backend Server is running on port ${PORT}`);
+    console.log(`Server at http://localhost:${PORT}`);
 });
