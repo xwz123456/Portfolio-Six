@@ -3,18 +3,20 @@ const router = express.Router();
 const assetController = require('../controllers/assetController');
 
 // Define asset-related routes
-router.get('/findAllAssets/:userId', assetController.getAssetsByUserId); 
+router.get('/findAllAssets/:userId', assetController.getAssetsByUserId);
 
 // get total assets history info by user ID
 router.get(
   '/totalAssetsHistoryInfo/:userId',
   assetController.getTotalAssetsHistoryInfoByUserId
-); 
+);
 
 // get total profit history info by user ID
 router.get(
   '/totalProfitHistoryInfo/:userId',
   assetController.getTotalProfitHistoryInfoByUserId
 );
+
+router.get('/rate/:userId', assetController.getUserAssetProfitRatesByType); // 计算某用户所有资产类型分别的总收益和总收益率(右上四个框)
 
 module.exports = router;
