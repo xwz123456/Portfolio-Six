@@ -353,6 +353,112 @@ exports.getUserAssetProfitRatesByType = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ * /api/assets/add:
+ *   post:
+ *     summary: 新增资产
+ *     tags:
+ *       - 资产管理
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: integer
+ *                 default: 1
+ *                 description: 用户 ID，默认值为 1
+ *               asset_type:
+ *                 type: string
+ *                 description: 资产类型，如 stock、bond 等
+ *               asset_code:
+ *                 type: string
+ *                 description: 资产代码
+ *               asset_name:
+ *                 type: string
+ *                 description: 资产名称
+ *               quantity:
+ *                 type: number
+ *                 description: 资产数量
+ *               purchase_price:
+ *                 type: number
+ *                 description: 买入价格
+ *               current_price:
+ *                 type: number
+ *                 description: 当前价格
+ *               purchase_date:
+ *                 type: string
+ *                 format: date
+ *                 description: 买入日期，格式为 YYYY - MM - DD
+ *             required:
+ *               - asset_type
+ *               - asset_code
+ *               - asset_name
+ *               - quantity
+ *               - purchase_price
+ *               - current_price
+ *               - purchase_date
+ *     responses:
+ *       200:
+ *         description: 资产添加成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     user_id:
+ *                       type: integer
+ *                     asset_type:
+ *                       type: string
+ *                     asset_code:
+ *                       type: string
+ *                     asset_name:
+ *                       type: string
+ *                     quantity:
+ *                       type: number
+ *                     purchase_price:
+ *                       type: number
+ *                     current_price:
+ *                       type: number
+ *                     purchase_date:
+ *                       type: string
+ *                       format: date
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: 请求参数错误
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: 服务器内部错误
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ */
+
 exports.addAsset = async (req, res) => {
   try {
     // 从请求体获取资产数据（前端需要传递这些字段）
