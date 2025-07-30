@@ -522,3 +522,88 @@ exports.addAsset = async (req, res) => {
     });
   }
 };
+
+/**
+ * @swagger
+ * /api/assets/delete/{id}:
+ *   delete:
+ *     summary: 根据资产ID删除资产
+ *     tags:
+ *       - 资产管理
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: 要删除的资产ID
+ *     responses:
+ *       200:
+ *         description: 资产删除成功
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: 资产未找到
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *       500:
+ *         description: 服务器内部错误
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ */
+exports.deleteAsset = async (req, res) => {
+  try {
+    // 从 URL 参数获取资产ID
+    const { id } = req.params;
+
+    // 检查资产是否存在
+    const checkQuery = 'SELECT * FROM user_assets WHERE id = ?';
+    const [checkResult] = await pool.query(checkQuery, [id]);
+
+    if (checkResult.length == 0) {
+      return res.status(404).json({
+        success: false,
+        message: '资产未找到'
+      });
+    }
+
+    // 执行删除操作
+    const deleteQuery = 'DELETE FROM user_assets WHERE id = ?';
+    await pool.query(deleteQuery, [id]);
+
+    res.status(200).json({
+      success: true,
+      message: '资产删除成功'
+    });
+  } catch (error) {
+    console.error('删除资产失败：', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
+    });
+  }
+};
+
+
+
