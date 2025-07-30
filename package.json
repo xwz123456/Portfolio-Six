@@ -1,0 +1,38 @@
+{
+  "name": "portfolio-six-backend",
+  "version": "1.0.0",
+  "description": "Welcome to the Portfolio Manager project! This application is designed to help users manage their financial portfolios, including stocks, bonds, and cash. Our goal is to provide a user-friendly interface for browsing, viewing performance, and managing portfolio items.",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xwz123456/Portfolio-Six-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xwz123456/Portfolio-Six-Backend/issues"
+  },
+  "homepage": "https://github.com/xwz123456/Portfolio-Six-Backend#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "eslint-plugin-prettier": "^5.5.3",
+    "express": "^5.1.0",
+    "jest": "^30.0.5",
+    "mysql2": "^3.14.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.1.2"
+  }
+}
