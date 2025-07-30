@@ -352,3 +352,67 @@ exports.getUserAssetProfitRatesByType = async (req, res) => {
     });
   }
 };
+
+exports.addAsset = async (req, res) => {
+  try {
+    // 从请求体获取资产数据（前端需要传递这些字段）
+    const {
+      user_id = 1, // 默认user1
+      asset_type,
+      asset_code,
+      asset_name,
+      quantity,
+      purchase_price,
+      current_price,
+      purchase_date
+    } = req.body;
+
+    // 基本参数校验
+    if (!asset_type || !asset_code || !asset_name || !quantity || !purchase_price || !current_price || !purchase_date) {
+      return res.status(400).json({
+        success: false,
+        message: '请填写完整的资产信息'
+      });
+    }
+
+    // 插入数据库
+    const query = `
+      INSERT INTO user_assets
+        (user_id, asset_type, asset_code, asset_name, quantity, purchase_price, current_price, purchase_date)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const [result] = await pool.query(query, [
+      user_id,
+      asset_type,
+      asset_code,
+      asset_name,
+      quantity,
+      purchase_price,
+      current_price,
+      purchase_date
+    ]);
+// 获取刚插入的完整数据（使用自增ID查询）
+    const selectQuery = `
+      SELECT * FROM user_assets
+      WHERE id = ?
+    `;
+    const [rows] = await pool.query(selectQuery, [result.insertId]);
+    const newAsset = rows[0]; // 提取查询到的新记录
+
+
+    // 返回新增的资产ID
+    res.status(200).json({
+      success: true,
+      data: newAsset,
+      message: '资产添加成功'
+      //timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('新增资产失败：', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
+    });
+  }
+};

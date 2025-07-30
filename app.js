@@ -38,11 +38,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/assets', assetRoutes);
 
 // Global error-handling middleware
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.error(err.stack);
-  res
-    .status(err.status || 500)
-    .json({ error: err.message || 'Internal Server Error' });
+  res.status(500).json({
+    message: 'Something went wrong!',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
 });
 
 // Start the server
