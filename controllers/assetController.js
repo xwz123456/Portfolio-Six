@@ -461,9 +461,20 @@ exports.getUserAssetProfitRatesByType = async (req, res) => {
 
 exports.addAsset = async (req, res) => {
   try {
-    // 从请求体获取资产数据（前端需要传递这些字段）
+    // 从前端嵌套结构中提取数据：前端数据在 req.body.request.parameters 里
+    const { parameters } = req.body.request || {};
+
+    // 如果参数不存在，直接返回错误
+    if (!parameters) {
+      return res.status(400).json({
+        success: false,
+        message: '请求参数格式错误'
+      });
+    }
+
+    // 从 parameters 中获取字段（注意前端的 userID 对应后端的 user_id）
     const {
-      user_id = 1, // 默认user1
+      userID: user_id = 1, // 适配前端的 userID 字段
       asset_type,
       asset_code,
       asset_name,
@@ -471,8 +482,8 @@ exports.addAsset = async (req, res) => {
       purchase_price,
       current_price,
       purchase_date,
-    } = req.body;
-
+    } = parameters;
+    
     // 基本参数校验
     if (
       !asset_type ||
