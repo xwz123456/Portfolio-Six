@@ -470,14 +470,22 @@ exports.addAsset = async (req, res) => {
       quantity,
       purchase_price,
       current_price,
-      purchase_date
+      purchase_date,
     } = req.body;
 
     // 基本参数校验
-    if (!asset_type || !asset_code || !asset_name || !quantity || !purchase_price || !current_price || !purchase_date) {
+    if (
+      !asset_type ||
+      !asset_code ||
+      !asset_name ||
+      !quantity ||
+      !purchase_price ||
+      !current_price ||
+      !purchase_date
+    ) {
       return res.status(400).json({
         success: false,
-        message: '请填写完整的资产信息'
+        message: '请填写完整的资产信息',
       });
     }
 
@@ -496,9 +504,9 @@ exports.addAsset = async (req, res) => {
       quantity,
       purchase_price,
       current_price,
-      purchase_date
+      purchase_date,
     ]);
-// 获取刚插入的完整数据（使用自增ID查询）
+    // 获取刚插入的完整数据（使用自增ID查询）
     const selectQuery = `
       SELECT * FROM user_assets
       WHERE id = ?
@@ -506,19 +514,18 @@ exports.addAsset = async (req, res) => {
     const [rows] = await pool.query(selectQuery, [result.insertId]);
     const newAsset = rows[0]; // 提取查询到的新记录
 
-
     // 返回新增的资产ID
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: newAsset,
-      message: '资产添加成功'
+      message: '资产添加成功',
       //timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error('新增资产失败：', error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: '服务器内部错误'
+      message: '服务器内部错误',
     });
   }
 };
@@ -584,7 +591,7 @@ exports.deleteAsset = async (req, res) => {
     if (checkResult.length == 0) {
       return res.status(404).json({
         success: false,
-        message: '资产未找到'
+        message: '资产未找到',
       });
     }
 
@@ -592,18 +599,15 @@ exports.deleteAsset = async (req, res) => {
     const deleteQuery = 'DELETE FROM user_assets WHERE id = ?';
     await pool.query(deleteQuery, [id]);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: '资产删除成功'
+      message: '资产删除成功',
     });
   } catch (error) {
     console.error('删除资产失败：', error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: '服务器内部错误'
+      message: '服务器内部错误',
     });
   }
 };
-
-
-
